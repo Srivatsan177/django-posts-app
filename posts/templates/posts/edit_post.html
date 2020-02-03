@@ -1,0 +1,14 @@
+{% extends 'posts/layout.html' %}
+
+{% block content %}
+<div class="container">
+    <form method="POST" class="form-group">
+        {% csrf_token %}
+        Title:
+        <input type="text" name="title" class="form-control" value="{{post.title}}">
+        Body:
+        <textarea name="body" class="form-control" id="" cols="30" rows="10">{{post.body}}</textarea>
+        <input type="submit" class="btn btn-success" value="update">
+    </form>
+</div>
+{% endblock %}

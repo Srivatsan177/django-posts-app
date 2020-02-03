@@ -1,0 +1,22 @@
+{% extends 'posts/layout.html' %}
+
+{% block content %}
+    <div class="container">
+        <h2>Logged in</h2>
+        <a href="{% url 'posts:add_post' %}" class="btn btn-default">Add Post</a>
+        {% for post in posts %}
+            <div class="row m-0 p-0">
+                <div class="col-md-6">
+                    <a href="{% url 'posts:show_post' post.id %}">{{post.title}}</a>
+                </div>
+                <div class="col-md-4">
+                    <form action="{% url 'posts:delete_post' post.id %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="submit" class="btn btn-outline-danger" value="Delete">
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
