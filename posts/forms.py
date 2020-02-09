@@ -13,3 +13,7 @@ class CustomLoginForm(forms.Form):
 class AddPostForm(forms.Form):
     title = forms.CharField(label="title",widget=forms.TextInput(attrs={'class':'form-control'}))
     body = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control'}))
+
+class UpdatePostForm(forms.Form):
+    title = forms.CharField(label="title",widget=forms.TextInput(attrs={'class':'form-control'}))
+    body = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control'}))
