@@ -16,15 +16,15 @@ def user_register(request):
             password = form.cleaned_data['Password']
             confpassword = form.cleaned_data['confirm_password']
             if password!=confpassword:
-                return redirect("/posts/register/")
+                return redirect("/register/")
             user = User.objects.create_user(username=username,password=password)
             user.save()
             user = authenticate(username=username,password=password)
             if user is not None:
                 login(request,user)
             else:
-                return redirect("/posts/")
-            return redirect("/posts/home/")
+                return redirect("/")
+            return redirect("/home/")
 
     form = CustomUserForm()
     return render(request,"posts/register.html",{"form":form})
@@ -35,16 +35,16 @@ def home(request,id=-1):
         if request.method=="POST":
             post = Post.objects.get(pk=id)
             post.delete()
-            return redirect("/posts/home")
+            return redirect("/home")
         posts = request.user
         posts = posts.post_set.all()
         return render(request,"posts/home.html",{"posts":posts})
     else:
-        return redirect("/posts/register")
+        return redirect("/register")
 
 def user_logout(request):
     logout(request)
-    return redirect("/posts/")
+    return redirect("/")
 
 def user_login(request):
     if request.method=="POST":
@@ -55,8 +55,8 @@ def user_login(request):
             user = authenticate(username=username,password=password)
             if user is not None:
                 login(request,user)
-                return redirect("/posts/home/")
-            return redirect("/posts/")
+                return redirect("/home/")
+            return redirect("/")
     form = CustomLoginForm()
     return render(request,"posts/login.html",{"form":form})
 
@@ -73,11 +73,11 @@ def add_post(request):
                 post.body = body
                 post.user_id = request.user
                 post.save()
-                return redirect("/posts/home/")
+                return redirect("/home/")
         form = AddPostForm()
         return render(request,"posts/add_post.html",{"form":form})
     else:
-        return redirect("/posts/")
+        return redirect("/")
 
 def show_post(request,id):
     post=Post.objects.get(pk=id)
@@ -97,8 +97,8 @@ def edit_post(request,id):
             post.title = title
             post.body = body
             post.save()
-            return redirect("/posts/show_post/"+str(id))
+            return redirect("/show_post/"+str(id))
         post = Post.objects.get(pk=id)
         return render(request,"posts/edit_post.html",{"post":post})
     else:
-        return redirect("/posts/home/")
+        return redirect("/home/")
